@@ -157,5 +157,21 @@ def speech_output():
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=8000)
 
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=8000)
+
+# ✅ Test OpenAI API Key
+@app.route("/test_openai", methods=["GET"])
+def test_openai():
+    if not client:
+        return jsonify({"status": "❌ OpenAI not configured or missing key"})
+    try:
+        response = client.responses.create(
+            model="gpt-4o-mini",
+            input="Say 'Hello from GrammarTool!'"
+        )
+        return jsonify({"status": "✅ OpenAI working", "reply": response.output_text})
+    except Exception as e:
+        return jsonify({"status": "❌ OpenAI error", "error": str(e)})
 
 
