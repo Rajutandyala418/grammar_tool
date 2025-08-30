@@ -15,9 +15,8 @@ RUN pip install --no-cache-dir --upgrade pip setuptools wheel && \
 # Copy project files
 COPY . .
 
-# Expose port
+# Expose port (optional, just for clarity)
 EXPOSE 8000
 
-# Start Gunicorn server
-CMD ["gunicorn", "--bind", "0.0.0.0:${PORT}", "app:app"]
-
+# Start Gunicorn server (use Railway's PORT)
+CMD gunicorn --bind 0.0.0.0:$PORT app:app
