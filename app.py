@@ -153,7 +153,13 @@ def speech_output():
     except Exception as e:
         print("Error in /speech_output:", e)
         return jsonify({"audio_base64": ""})
-        
+
+
+# ✅ Root route
+@app.route("/")
+def home():
+    return "🚀 GrammarTool API is running on Railway! Available routes: /process_text, /translate_text, /speech_output"
+
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=8000)
 
