@@ -23,6 +23,7 @@ client = OpenAI(api_key=OPENAI_KEY) if (OPENAI_AVAILABLE and OPENAI_KEY) else No
 app = Flask(__name__)
 CORS(app)  # Enable CORS for all routes
 
+# ---------------- POS mapping etc. ----------------
 POS_MAPPING = {
     "ADJ": "Adjective", "ADP": "Adposition (preposition/postposition)", "ADV": "Adverb",
     "AUX": "Auxiliary Verb", "CONJ": "Conjunction", "CCONJ": "Coordinating Conjunction",
@@ -41,6 +42,7 @@ PRONOUNS = {
     "female": {"subject": "she", "object": "her", "possessive": "her"}
 }
 
+# ---------------- Helper Functions ----------------
 def detect_gender(text):
     text_lower = text.lower()
     for word, gender in GENDER_KEYWORDS.items():
@@ -94,6 +96,7 @@ def analyze_pos_tense(text):
             tense_info.append((token.text, "Continuous"))
     return pos_tags, tense_info
 
+# ---------------- API Routes ----------------
 @app.route("/process_text", methods=["POST"])
 def process_text():
     try:
@@ -111,20 +114,16 @@ def translate_text():
     try:
         data = request.get_json(force=True)
         text = data.get("input_text", "")
-        target_language = data.get("target_language", "hi").lower().strip()  # ✅ enforce lowercase code
+        target_language = data.get("target_language", "hi").lower().strip()
 
         if not text.strip():
             return jsonify({"translated_text": ""})
 
         translated = GoogleTranslator(source="auto", target=target_language).translate(text)
         return jsonify({"translated_text": translated})
-
     except Exception as e:
-        import traceback
-        traceback.print_exc()
         return jsonify({"translated_text": f"Error: {str(e)}"})
 
-# ✅ Speech Output with gTTS
 @app.route("/speech_output", methods=["POST"])
 def speech_output():
     try:
@@ -148,7 +147,6 @@ def speech_output():
         mp3_fp.seek(0)
         audio_base64 = base64.b64encode(mp3_fp.read()).decode("utf-8")
         return jsonify({"audio_base64": audio_base64})
-
     except Exception as e:
         print("Error in /speech_output:", e)
         return jsonify({"audio_base64": ""})
@@ -167,6 +165,6 @@ def test_openai():
     except Exception as e:
         return jsonify({"status": "❌ OpenAI error", "error": str(e)})
 
-# ✅ Run Flask app (final)
+# ---------------- Run App ----------------
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=8000)
