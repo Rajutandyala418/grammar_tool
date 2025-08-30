@@ -10,12 +10,12 @@ from gtts import gTTS
 import base64
 from io import BytesIO
 from deep_translator import GoogleTranslator
+import os
 
 # Load SpaCy English model for NLP
 nlp = spacy.load("en_core_web_sm")
 
 # Initialize OpenAI client only if available and key provided
-import os
 OPENAI_KEY = os.environ.get("OPENAI_KEY", "").strip()
 client = OpenAI(api_key=OPENAI_KEY) if (OPENAI_AVAILABLE and OPENAI_KEY) else None
 
@@ -105,6 +105,7 @@ def process_text():
     except Exception as e:
         print("Error in /process_text:", e)
         return jsonify({"corrected_text": "Error processing input.", "pos_tags": [], "tense_info": []})
+
 @app.route("/translate_text", methods=["POST"])
 def translate_text():
     try:
@@ -122,8 +123,6 @@ def translate_text():
         import traceback
         traceback.print_exc()
         return jsonify({"translated_text": f"Error: {str(e)}"})
-
-
 
 # ✅ Speech Output with gTTS
 @app.route("/speech_output", methods=["POST"])
@@ -154,12 +153,6 @@ def speech_output():
         print("Error in /speech_output:", e)
         return jsonify({"audio_base64": ""})
 
-if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=8000)
-
-if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=8000)
-
 # ✅ Test OpenAI API Key
 @app.route("/test_openai", methods=["GET"])
 def test_openai():
@@ -174,4 +167,6 @@ def test_openai():
     except Exception as e:
         return jsonify({"status": "❌ OpenAI error", "error": str(e)})
 
-
+# ✅ Run Flask app (final)
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=8000)
