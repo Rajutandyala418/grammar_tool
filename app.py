@@ -22,13 +22,14 @@ from deep_translator import GoogleTranslator
 nlp = spacy.load("en_core_web_sm")
 
 # ✅ Read API key from Railway ENV or local .env
-OPENAI_KEY = os.getenv("OPENAI_KEY", "").strip()
+OPENAI_KEY = os.environ.get("OPENAI_KEY", "").strip()
+
+
 
 if not OPENAI_KEY:
     print("⚠️ No OPENAI_KEY found in environment or .env file")
 else:
     print("✅ OPENAI_KEY loaded (hidden for security)")
-
 client = OpenAI(api_key=OPENAI_KEY) if (OPENAI_AVAILABLE and OPENAI_KEY) else None
 
 # Initialize Flask app
