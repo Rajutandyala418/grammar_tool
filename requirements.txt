@@ -10,5 +10,4 @@ preshed==3.0.8
 murmurhash==1.0.9
 cymem==2.0.8
 gTTS==2.3.2
-deep-translator==1.9.4
-openai==1.0.0
+deep-translator==1.10.0   # ⬅ change this
