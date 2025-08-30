@@ -10,4 +10,5 @@ preshed==3.0.8
 murmurhash==1.0.9
 cymem==2.0.8
 gTTS==2.3.2
-deep-translator==1.10.0   # ⬅ change this
+deep-translator==1.10.0
+numpy<1.24.0,>=1.21.0   ← 👈 this line fixes compatibility
