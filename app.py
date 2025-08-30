@@ -1,22 +1,34 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 import spacy
+import os
+
+# ✅ Load .env file if running locally
+from dotenv import load_dotenv
+load_dotenv()
+
 try:
     from openai import OpenAI
     OPENAI_AVAILABLE = True
 except ImportError:
     OPENAI_AVAILABLE = False
+
 from gtts import gTTS
 import base64
 from io import BytesIO
 from deep_translator import GoogleTranslator
-import os
 
 # Load SpaCy English model for NLP
 nlp = spacy.load("en_core_web_sm")
 
-# Initialize OpenAI client only if available and key provided
-OPENAI_KEY = os.environ.get("OPENAI_KEY", "").strip()
+# ✅ Read API key from Railway ENV or local .env
+OPENAI_KEY = os.getenv("OPENAI_KEY", "").strip()
+
+if not OPENAI_KEY:
+    print("⚠️ No OPENAI_KEY found in environment or .env file")
+else:
+    print("✅ OPENAI_KEY loaded (hidden for security)")
+
 client = OpenAI(api_key=OPENAI_KEY) if (OPENAI_AVAILABLE and OPENAI_KEY) else None
 
 # Initialize Flask app
