@@ -19,4 +19,5 @@ COPY . .
 EXPOSE 8000
 
 # Start Gunicorn server (use Railway's PORT)
-CMD gunicorn --bind 0.0.0.0:$PORT app:app
+CMD ["sh", "-c", "gunicorn --bind 0.0.0.0:${PORT} app:app"]
+
