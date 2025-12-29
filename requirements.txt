@@ -1,14 +1,10 @@
-Flask==2.2.5
-flask-cors==3.0.10
-gunicorn==20.1.0
-spacy==3.5.3
-blis==0.7.9
-thinc==8.1.10
-srsly==2.4.6
-catalogue==2.0.10
-preshed==3.0.8
-murmurhash==1.0.9
-cymem==2.0.8
-gTTS==2.3.2
-deep-translator==1.10.0
-numpy<1.24.0,>=1.21.0
+# Requires Python >=3.10,<3.12
+
+Flask==3.0.3
+flask-cors==4.0.1
+spacy==3.7.4
+en-core-web-sm==3.7.1
+gTTS==2.5.3
+deep-translator==1.11.4
+openai==1.57.4
+
